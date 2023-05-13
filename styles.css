@@ -1,0 +1,242 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+    font-family: Arial;
+    
+}
+:root {
+    --primary-color:#d8d6d6;
+    --scondery-color: #111111;
+}
+.dark-theme {
+    --primary-color:#111111;
+    --scondery-color: #dde4ca;
+}
+
+body {
+    background-color: var(--scondery-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between;
+    min-height: 100vh;
+    margin: 0;
+    padding: 1em;
+    font-size: clamp(0.5em, 2.5vmin, 1.5rem);
+}
+.key-board {
+    display: grid;
+    grid-template-columns: repeat(20,minmax(auto, 1.25em));
+    grid-auto-rows: 3em;
+    justify-content: center;
+    gap: .25em;
+}
+.key{
+    font-size: inherit;
+    grid-column: span 2;
+    border: none;
+    display: grid;
+    place-content: center;
+    background-color:  hsl(
+        var(--hue, 200),
+       var(--saturation, 1%),
+       calc(var(--lightness-offset, 0%)  + var(--lightness, 51%)));
+    color: var(--primary-color);
+    fill: var(--primary-color);
+    border-radius: .25rem;
+    text-transform: uppercase;
+    user-select: none;
+}
+.space {
+    grid-column: span 1;
+}
+.large {
+    grid-column: span 3;
+}
+.key > svg {
+    height: 1.75em;
+    width: 1.75em;
+}
+.key:hover {
+    --lightness-offset : 20%;
+}
+.key.wrong{
+    --lightness: 23%;
+}
+.key.wrong-location{
+    --hue:49;
+    --saturation:51%;
+    --lightness:47%;
+}
+.key.correct{
+    --hue:115;
+    --saturation:29%;
+    --lightness:43%;
+}
+.box {
+    border:2px solid rgb(61, 60, 60);
+    border-radius: .05em;
+    user-select: none;
+    transition: transform 250ms linear;
+}
+.words-container {
+    display: grid;
+    grid-template-columns: repeat(5, 3.5em);
+    grid-template-rows: repeat(6,3.5em);
+    gap: .25em;
+    margin-inline: auto;
+}
+.box[data-state = "active"]{
+    animation-name: size-change;
+    animation-duration: .1s;
+    border-color: rgb(127, 127, 127);
+}
+.box[data-state="wrong"]{
+    border: none;
+    background-color: hsl(240,2%,23%);
+}
+.box[data-state="wrong-location"]{
+    border: none;
+    background-color: hsl(49,51%,47%);
+}
+.box[data-state="correct"]{
+    border: none;
+    background-color: hsl(115,29%,43%);
+}
+.delete{
+    cursor: pointer;
+}
+@keyframes size-change{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(0.9);
+    }
+    100%{
+       transform: scale(1.1);
+    }
+}
+.flib {
+    animation-name: flib;
+    animation-duration: 1s;
+}
+
+@keyframes flib {
+    0%{
+        transform: scaleY(1);
+    }
+    100%{
+        transform: scaleY(-1);
+    }
+}
+
+header h1{
+    color: var(--primary-color);
+    text-align: center;
+}
+.box {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    display: grid;
+    place-content: center;
+    font-weight: bold;  
+    cursor: none;
+}
+.alert-container {
+    position: fixed;
+    top: 10vh;
+    left: 50vw;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    z-index: 1;
+}
+.alert{
+    pointer-events: none;
+    background-color: hsl(204,7%,58%);
+    padding: 0.7em;
+    border-radius: 0.25em;
+    opacity: 1;
+    transition: opacity 500ms ease-in-out;
+    margin-bottom: 0.5em;
+    width: fit-content;
+}
+
+.alert:last-child{
+    margin-bottom: 0;
+}
+.alert.hide {
+    opacity: 0;
+}
+
+.box.shake {
+    animation-name: shake;
+    animation-duration:  250ms ;
+}
+.box.flip{
+    transform: rotateX(90deg);
+}
+.box.dance{
+    animation-name: dance;
+    animation-duration: .25s;
+}
+@keyframes dance {
+    20%{
+        transform: translateY(-50%);
+    }
+    40%{
+        transform: translateY(5%);
+    }
+    60%{
+        transform: translateY(-25%);
+    }
+    80%{
+        transform: translateY(2.5%);
+    }
+    90%{
+        transform: translateY(-5%);
+    }
+    100%{
+        transform: translateY(0%);
+    }
+}
+@keyframes shake {
+    0%{
+        transform: translateX(-5%);
+    }
+    25%{
+        transform: translateX(5%);
+    }
+    50%{
+        transform: translateX(-5%);
+    }
+    75%{
+        transform: translateX(5%);
+    }
+    100%{
+        transform: translateX(-5%);
+    }
+}
+
+@media  screen and (max-width:520px) {
+    .words-container{
+        grid-template-columns: repeat(5, 4.5em);
+        grid-template-rows: repeat(6,4.5em);    
+    }
+    .key-board{
+        grid-template-columns: repeat(20,minmax(auto, 2.25em));
+        grid-auto-rows: 4em;
+    }
+
+}
+.dark-theme-converter{
+   background-color: var(--primary-color);
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    position: absolute;
+    right: 10%;
+    top: 4%;
+}
+ 
